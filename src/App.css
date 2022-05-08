@@ -6,6 +6,17 @@
   height: 40vmin;
   pointer-events: none;
 }
+.userContainer {
+  width: 250px;
+  height: auto;
+  background-color: aliceblue;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 10px;
+  border-radius: 1rem;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

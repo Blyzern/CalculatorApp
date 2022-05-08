@@ -1,29 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
-import { CustomButton } from './components/CustomButton';
+import { UsersArray } from './components/UsersArray';
 
-const arrayLength = 30;
-const data = [...Array(arrayLength).keys()];
+const users = [
+  {
+  name: 'Jonathan',
+  age: '25',
+  platform: 'Facebook'
+  },
+  {
+      name: 'Salvatore',
+      age: '21',
+      platform: 'Twitter'
+  },
+  {
+      name: 'Federico',
+      age: '60',
+      platform: 'none'
+  }
+  ];
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         {
-          data.map((item, index) => <CustomButton text={item} />)
+          users.map((items, index) => <UsersArray array={items}/>)
         }
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );

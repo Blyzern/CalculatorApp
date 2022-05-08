@@ -1,5 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
+import { CustomButton } from './components/CustomButton';
+
+const arrayLength = 30;
+const data = [...Array(arrayLength).keys()];
 
 function App() {
   return (
@@ -9,6 +13,9 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        {
+          data.map((item, index) => <CustomButton text={item} />)
+        }
         <a
           className="App-link"
           href="https://reactjs.org"

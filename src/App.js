@@ -19,7 +19,12 @@ import { Calculator } from './components/Calculator';
 //       platform: 'none'
 //   }
 //   ];
-const buttons = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0, '+', '-', '*', '/', '=', '.', 'C'];
+const numbers = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0, '.'];
+const operators = ['+', '-', '*', '/','DEL'];
+const result = 0;
+
+
+
 function App() {
   return (
     <div className="App">
@@ -27,9 +32,11 @@ function App() {
         {
           // users.map((items, index) => <UsersArray array={items}/>)
           <div className='calculatorContainer'>
-            <p  className='calculatorDisplay'>0</p>
-
-            {buttons.map((items, index) => <Calculator text={items} />)}
+            <div className='calculatorDisplay'>
+            <span>(0)</span>{result || '0'}
+              </div>
+            {operators.map((items, index) => <Calculator text={items}/>)}
+            {numbers.map((items, index) => <Calculator text={items} />)}
           </div>
         }
       </header>

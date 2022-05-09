@@ -1,6 +1,13 @@
 import React from 'react';
 
-export const Calculator = ({text}) => {
+function addValue(number)
+{
+    if(number === '.' || (number >= 0 && number <= 9))
+    {
+        console.log(number);
+    }
+}
 
-    return <button className='calculatorButtons'>{text}</button>
+export const Calculator = ({text}) => {
+    return <button className='calculatorButtons' onClick={() => addValue(text)}>{text}</button>
 };

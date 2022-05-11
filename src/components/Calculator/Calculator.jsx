@@ -7,21 +7,32 @@ const CalculatorComponent = () =>{
     const [calc, setCalc] = useState("");
   
     const handleClick = (e) => {
+        let value = e.target.value;
+
         for (let i = 0; i < operators.length; i++) {
-            if (e.target.value === operators[i] && calc.includes(operators[i])) {
+            if (calc.charAt(calc.length -1) !== '-' && value === operators[i]&& value !== '-' && (calc.charAt(calc.length -1) === '+' || calc.charAt(calc.length -1) === '*' || calc.charAt(calc.length -1) === '/')) {
                 return;
             }
-            if(e.target.value !== '-' && e.target.value === operators[i] && calc === "0"){
+            if(calc.charAt(calc.length -1) === operators[i] && value === operators[i]){
+                return;
+            }
+            if(value !== '-' && value !== '.' && value === operators[i] && calc === "0"){
                 return;
             }
         }
-        if (e.target.value === '0' && calc === "0") {
+        if(calc === "0" && value !== '.'){ // make sure to remove the first 0 after an equal() call
+            return setCalc(value);
+        }
+        if(calc.charAt(calc.length -1) === '-'  && value === '-'){
+            return setCalc(calc + ' ' + value);
+        }
+        if (value === '0' && calc === "0") {
             clear();
             return;
         }
-        else{
-        setCalc(calc + e.target.value);
-        }
+
+        setCalc(calc + value);
+        
     }
 
     const clear = () => {
@@ -32,11 +43,7 @@ const CalculatorComponent = () =>{
     }
 
     const buttonMaker = () => {
-        let buttons = [];
-        for (let i = 0; i < calculatorButtons.length; i++) {
-            buttons.push(<button key={i} value={calculatorButtons[i]} className='calculatorButtons' onClick={handleClick}>{calculatorButtons[i]}</button>)
-        }
-    return buttons;
+    return calculatorButtons.map((items, index) => (<button key={index} value={items} className='calculatorButtons' onClick={handleClick}>{items}</button>));
     }
 
     return (

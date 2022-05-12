@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { CustomButton } from '../CustomButton/CustomButton';
+import { Display } from '../Display';
 import './Calculator.css';
 
+const numbers = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0];
+const operators = ['+', '-', '*', '/', '.'];
+
 const CalculatorComponent = () =>{
-    const calculatorButtons = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0, '.','+', '-', '*', '/',];
-    const operators = ['+', '-', '*', '/', '.'];
     const [calc, setCalc] = useState("");
   
     const handleClick = (e) => {
         let value = e.target.value;
 
         for (let i = 0; i < operators.length; i++) {
+            const nomeCondizione = calc.charAt(calc.length -1) === operators[i] && value === operators[i]
             if (calc.charAt(calc.length -1) !== '-' && value === operators[i]&& value !== '-' && (calc.charAt(calc.length -1) === '+' || calc.charAt(calc.length -1) === '*' || calc.charAt(calc.length -1) === '/')) {
                 return;
             }
-            if(calc.charAt(calc.length -1) === operators[i] && value === operators[i]){
+            if(nomeCondizione){
                 return;
             }
             if(value !== '-' && value !== '.' && value === operators[i] && calc === "0"){
@@ -42,18 +46,13 @@ const CalculatorComponent = () =>{
         setCalc(eval(calc).toString());
     }
 
-    const buttonMaker = () => {
-    return calculatorButtons.map((items, index) => (<button key={index} value={items} className='calculatorButtons' onClick={handleClick}>{items}</button>));
-    }
-
     return (
         <div className='calculatorContainer'>
-            <div className='calculatorDisplay'>
-                {calc || '0'}
-            </div>
-                {buttonMaker()}
-                <button className='calculatorButtons' onClick={ clear }>DEL</button>
-                <button className='calculatorButtons' onClick={ equal }>=</button>
+            {<Display value={calc} />}
+            {operators.map((item, index) => <CustomButton key={index} text={item} onClick={handleClick} customClass={'operator'} />)}
+            <button className='operator' onClick={ clear }>DEL</button>
+            <button className='operator' onClick={ equal }>=</button>
+            {numbers.map((item, index) => <CustomButton  text={item} onClick={handleClick} customClass='calculatorButtons'/>)}
         </div>
        );
     }

@@ -7,52 +7,79 @@ const numbers = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0];
 const operators = ['+', '-', '*', '/', '.'];
 
 const CalculatorComponent = () =>{
+    let isNegative = false;
     const [calc, setCalc] = useState("");
+    const [secondCalc, setSecondCalcalc] = useState("");
+    const [ops, setOps] = useState("");
   
-    const handleClick = (e) => {
+    const handleNumber = (e) => {
+
+        let value = e.target.value;
+        if(ops === ""){
+        setCalc(Math.floor(calc + value));
+        }
+        else{
+        setSecondCalcalc(Math.floor(secondCalc + value));
+        }
+    }
+    const handleOperator = (e) => {
         let value = e.target.value;
 
-        for (let i = 0; i < operators.length; i++) {
-            const nomeCondizione = calc.charAt(calc.length -1) === operators[i] && value === operators[i]
-            if (calc.charAt(calc.length -1) !== '-' && value === operators[i]&& value !== '-' && (calc.charAt(calc.length -1) === '+' || calc.charAt(calc.length -1) === '*' || calc.charAt(calc.length -1) === '/')) {
-                return;
+        if(value === '-'){
+            if(calc === ''){
+                return setCalc(value);
             }
-            if(nomeCondizione){
-                return;
-            }
-            if(value !== '-' && value !== '.' && value === operators[i] && calc === "0"){
-                return;
+            else if(ops === value && secondCalc === ''){
+                setSecondCalcalc(secondCalc + "-");
             }
         }
-        if(calc === "0" && value !== '.'){ // make sure to remove the first 0 after an equal() call
-            return setCalc(value);
+        if(ops === ""){  
+         setOps(value);
         }
-        if(calc.charAt(calc.length -1) === '-'  && value === '-'){
-            return setCalc(calc + ' ' + value);
+        if(secondCalc !== ""){
+            equal();
+            setOps(value);
         }
-        if (value === '0' && calc === "0") {
-            clear();
-            return;
-        }
-
-        setCalc(calc + value);
-        
     }
 
     const clear = () => {
            setCalc("");
+           setCalc("");
+           setOps("");
     }
-    const equal = () => { 
-        setCalc(eval(calc).toString());
+    const equal = () => {
+
+        const sum = ops === "+";
+        const sub = ops === "-";
+        const mul = ops === "*";
+        const div = ops === "/";
+        if(isNegative)
+        {
+            setSecondCalcalc(secondCalc * -1);
+        }
+        if(sum){
+            setCalc(Math.floor(calc + secondCalc));
+        }
+        if(sub){
+            setCalc(Math.floor(calc - secondCalc));
+        }
+        if(mul){
+            setCalc(Math.floor(calc * secondCalc));
+        }
+        if(div){
+            setCalc(Math.floor(calc / secondCalc));
+        }
+        setSecondCalcalc("");
+        setOps("");
     }
 
     return (
         <div className='calculatorContainer'>
-            {<Display value={calc} />}
-            {operators.map((item, index) => <CustomButton key={index} text={item} onClick={handleClick} customClass={'operator'} />)}
-            <button className='operator' onClick={ clear }>DEL</button>
-            <button className='operator' onClick={ equal }>=</button>
-            {numbers.map((item, index) => <CustomButton  text={item} onClick={handleClick} customClass='calculatorButtons'/>)}
+            {<Display value={calc} clickedOperator={ops} secondValue={secondCalc} />}
+            {operators.map((item, index) => <CustomButton key={item} text={item} onClick={handleOperator} customClass={'operator'} />)}
+            {<CustomButton text={'DEL'} onClick={clear} customClass={'operator'} />}
+            {<CustomButton text={'='} onClick={equal} customClass={'operator'} />}
+            {numbers.map((item, index) => <CustomButton  key={item} text={item} onClick={handleNumber} customClass='calculatorButtons'/>)}
         </div>
        );
     }

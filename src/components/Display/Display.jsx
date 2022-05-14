@@ -4,9 +4,9 @@ import './Display.css';
 export const Display = ({ value, clickedOperator, secondValue }) => {
     return(
     <div className='calculatorDisplay'>
-    {value || 0}
-    {clickedOperator || ''}
-    {secondValue || ''}
+        <span>{value || 0}</span>
+        <span>{clickedOperator || " "}</span>
+        <span>{secondValue || " "}</span>
     </div>
     );
 }

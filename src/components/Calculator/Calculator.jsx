@@ -7,40 +7,45 @@ const numbers = [1, 2 ,3, 4, 5, 6, 7, 8, 9, 0];
 const operators = ['+', '-', '*', '/','.'];
 
 const CalculatorComponent = () =>{
-    let isNegative = false;
     const [calc, setCalc] = useState("");
-    const [secondCalc, setSecondCalcalc] = useState("");
+    const [secondCalc, setSecondCalc] = useState("");
     const [ops, setOps] = useState("");
   
     const handleNumber = (e) => {
 
         let value = e.target.value;
         if(ops === ""){
-        setCalc(Number(calc + value));
+            setCalc(Number(calc + value));
         }
         else{
-        setSecondCalcalc(Number(secondCalc + value));
+            setSecondCalc(Number(secondCalc + value));
         }
     }
     const handleOperator = (e) => {
         let value = e.target.value;
         const minus = value === '-';
         const float = value === '.';
-
+        const calcCheck = (variable) => {
+           let temp = Array.from(variable);
+            return temp.join().includes('.');
+        }
         if(minus){
-            if(calc === ''){
-                return setCalc(value);
+            if(calc === '' ){
+                return setCalc(calc + value);
             }
-            else if(value === '-' && secondCalc === ''){
-                return setSecondCalcalc(value);
+            else if(ops !== '' && secondCalc === ''){
+                return setSecondCalc(value);
             }
         }
         if(float){
-            if(ops === ''){
-                return setCalc(calc + ".");
+            if(ops === '' && !calcCheck(calc)){
+            return setCalc(calc + ".");
             }
-            else if(ops !== ''){
-                return setSecondCalcalc(secondCalc + ".");
+            else if(ops !== '' && !calcCheck(secondCalc)){
+                return setSecondCalc(secondCalc + ".");
+            }
+            else{
+                return;
             }
         }
 
@@ -55,7 +60,7 @@ const CalculatorComponent = () =>{
 
     const clear = () => {
            setCalc("");
-           setCalc("");
+           setSecondCalc("");
            setOps("");
     }
     const equal = () => {
@@ -64,10 +69,6 @@ const CalculatorComponent = () =>{
         const sub = ops === "-";
         const mul = ops === "*";
         const div = ops === "/";
-        if(isNegative)
-        {
-            setSecondCalcalc(secondCalc * -1);
-        }
         if(sum){
             setCalc(Number(calc + secondCalc));
         }
@@ -80,7 +81,7 @@ const CalculatorComponent = () =>{
         if(div){
             setCalc(Number(calc / secondCalc));
         }
-        setSecondCalcalc("");
+        setSecondCalc("");
         setOps("");
     }
 

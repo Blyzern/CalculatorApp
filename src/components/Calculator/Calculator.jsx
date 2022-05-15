@@ -23,13 +23,14 @@ const CalculatorComponent = () =>{
     }
     const handleOperator = (e) => {
         let value = e.target.value;
-        const minus = value === '-';
+        const minus = value === '-' && calc === '';
         const float = value === '.';
         const calcCheck = (variable) => {
            let temp = Array.from(variable);
             return temp.join().includes('.');
         }
         if(minus){
+
             if(calc === '' ){
                 return setCalc(calc + value);
             }
@@ -64,22 +65,22 @@ const CalculatorComponent = () =>{
            setOps("");
     }
     const equal = () => {
+        switch(ops){
+            case '+':
+                setCalc(Number(calc + secondCalc));
+                break;
+            case '-':
+                setCalc(Number(calc - secondCalc));
+                break;
+            case '*':
+                setCalc(Number(calc * secondCalc));
+                break;
+            case '/':
+                setCalc(Number(calc / secondCalc));
+                break;
+            default:
+                break;
 
-        const sum = ops === "+";
-        const sub = ops === "-";
-        const mul = ops === "*";
-        const div = ops === "/";
-        if(sum){
-            setCalc(Number(calc + secondCalc));
-        }
-        if(sub){
-            setCalc(Number(calc - secondCalc));
-        }
-        if(mul){
-            setCalc(Number(calc * secondCalc));
-        }
-        if(div){
-            setCalc(Number(calc / secondCalc));
         }
         setSecondCalc("");
         setOps("");

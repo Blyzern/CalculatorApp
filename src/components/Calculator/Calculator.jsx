@@ -10,49 +10,24 @@ const CalculatorComponent = () =>{
     const [calc, setCalc] = useState("");
     const [secondCalc, setSecondCalc] = useState("");
     const [ops, setOps] = useState("");
-  
+
     const handleNumber = (e) => {
 
         let value = e.target.value;
-        if(ops === ""){
-            setCalc(Number(calc + value));
-        }
-        else{
-            setSecondCalc(Number(secondCalc + value));
-        }
+        (ops === "") ? setCalc(calc + value) : setSecondCalc(secondCalc + value);
     }
     const handleOperator = (e) => {
         let value = e.target.value;
-        const minus = value === '-' && calc === '';
+        const minus = value === '-';
         const float = value === '.';
-        const calcCheck = (variable) => {
-           let temp = Array.from(variable);
-            return temp.join().includes('.');
-        }
-        if(minus){
-
-            if(calc === '' ){
-                return setCalc(calc + value);
-            }
-            else if(ops !== '' && secondCalc === ''){
-                return setSecondCalc(value);
-            }
-        }
         if(float){
-            if(ops === '' && !calcCheck(calc)){
-            return setCalc(calc + ".");
-            }
-            else if(ops !== '' && !calcCheck(secondCalc)){
-                return setSecondCalc(secondCalc + ".");
-            }
-            else{
-                return;
-            }
-        }
+            (ops === '' && calc.includes('.') === false) && setCalc(calc + value);
+            (ops !== '' && secondCalc.includes('.') === false) && setSecondCalc(secondCalc + value);
+            return;
 
-        if(ops === ""){  
-         setOps(value);
         }
+        (minus && calc === "") ? setCalc(calc + value) : setOps(value);
+        (ops !== "") && setSecondCalc(secondCalc + value);
         if(secondCalc !== ""){
             equal();
             setOps(value);
@@ -67,16 +42,16 @@ const CalculatorComponent = () =>{
     const equal = () => {
         switch(ops){
             case '+':
-                setCalc(Number(calc + secondCalc));
+                setCalc(Number(calc) + Number(secondCalc));
                 break;
             case '-':
-                setCalc(Number(calc - secondCalc));
+                setCalc(Number(calc) - Number(secondCalc));
                 break;
             case '*':
-                setCalc(Number(calc * secondCalc));
+                setCalc(Number(calc) * Number(secondCalc));
                 break;
             case '/':
-                setCalc(Number(calc / secondCalc));
+                setCalc(Number(calc) / Number(secondCalc));
                 break;
             default:
                 break;
